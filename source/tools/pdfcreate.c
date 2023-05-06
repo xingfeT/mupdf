@@ -1,24 +1,4 @@
 // Copyright (C) 2004-2021 Artifex Software, Inc.
-//
-// This file is part of MuPDF.
-//
-// MuPDF is free software: you can redistribute it and/or modify it under the
-// terms of the GNU Affero General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-//
-// MuPDF is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-// FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-// details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with MuPDF. If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>
-//
-// Alternative licensing terms are available from the licensor.
-// For commercial licensing, see <https://www.artifex.com/> or contact
-// Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
-// CA 94129, USA, for further information.
 
 /*
  * PDF creation tool: Tool for creating pdf content.
@@ -190,14 +170,14 @@ static void create_page(char *input)
 				s = fz_strsep(&p, " ");
 				if (!strcmp(s, "%%MediaBox"))
 				{
-					mediabox.x0 = fz_atoi(fz_strsep(&p, " "));
-					mediabox.y0 = fz_atoi(fz_strsep(&p, " "));
-					mediabox.x1 = fz_atoi(fz_strsep(&p, " "));
-					mediabox.y1 = fz_atoi(fz_strsep(&p, " "));
+					mediabox.x0 = atoi(fz_strsep(&p, " "));
+					mediabox.y0 = atoi(fz_strsep(&p, " "));
+					mediabox.x1 = atoi(fz_strsep(&p, " "));
+					mediabox.y1 = atoi(fz_strsep(&p, " "));
 				}
 				else if (!strcmp(s, "%%Rotate"))
 				{
-					rotate = fz_atoi(fz_strsep(&p, " "));
+					rotate = atoi(fz_strsep(&p, " "));
 				}
 				else if (!strcmp(s, "%%Font"))
 				{

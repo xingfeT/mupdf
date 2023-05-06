@@ -26,8 +26,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static int usage(void)
-{
+static int usage(void){
 	fprintf(stderr,
 		"Usage: mutool trace [options] file [pages]\n"
 		"\t-p -\tpassword\n"
@@ -53,8 +52,7 @@ static int layout_use_doc_css = 1;
 
 static int use_display_list = 0;
 
-static void runpage(fz_context *ctx, fz_document *doc, int number)
-{
+static void runpage(fz_context *ctx, fz_document *doc, int number){
 	fz_page *page = NULL;
 	fz_display_list *list = NULL;
 	fz_device *dev = NULL;
@@ -120,9 +118,9 @@ int mutrace_main(int argc, char **argv)
 		default: return usage();
 		case 'p': password = fz_optarg; break;
 
-		case 'W': layout_w = fz_atof(fz_optarg); break;
-		case 'H': layout_h = fz_atof(fz_optarg); break;
-		case 'S': layout_em = fz_atof(fz_optarg); break;
+		case 'W': layout_w = atof(fz_optarg); break;
+		case 'H': layout_h = atof(fz_optarg); break;
+		case 'S': layout_em = atof(fz_optarg); break;
 		case 'U': layout_css = fz_optarg; break;
 		case 'X': layout_use_doc_css = 0; break;
 

@@ -26,8 +26,7 @@
 
 #define DPI 72.0f
 
-typedef struct
-{
+typedef struct{
 	fz_page super;
 	fz_image *image;
 } img_page;

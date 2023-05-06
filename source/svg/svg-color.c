@@ -1,28 +1,9 @@
 // Copyright (C) 2004-2021 Artifex Software, Inc.
-//
-// This file is part of MuPDF.
-//
-// MuPDF is free software: you can redistribute it and/or modify it under the
-// terms of the GNU Affero General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-//
-// MuPDF is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-// FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-// details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with MuPDF. If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>
-//
-// Alternative licensing terms are available from the licensor.
-// For commercial licensing, see <https://www.artifex.com/> or contact
-// Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
-// CA 94129, USA, for further information.
 
 #include "mupdf/fitz.h"
 #include "svg-imp.h"
 
+#include <stdbool.h>
 #include <string.h>
 
 /* Color keywords (white, blue, fuchsia)
@@ -35,13 +16,12 @@
  * "red icc-color(profileName,255,0,0)" (not going to support for now)
  */
 
-struct
-{
-	const char *name;
-	float red, green, blue;
+struct{
+  const char *name;
+  uint8_t red, green, blue;
 }
-svg_predefined_colors[] =
-{
+
+svg_predefined_colors[] ={
 	{ "aliceblue", 240, 248, 255 },
 	{ "antiquewhite", 250, 235, 215 },
 	{ "aqua", 0, 255, 255 },
@@ -191,51 +171,45 @@ svg_predefined_colors[] =
 	{ "yellowgreen", 154, 205, 50 },
 };
 
-static int unhex(int chr)
-{
-	const char *hextable = "0123456789abcdef";
-	return strchr(hextable, (chr|32)) - hextable;
+static int unhex(int chr){
+  const char *hextable = "0123456789abcdef";
+  return strchr(hextable, (chr|32)) - hextable;
 }
 
-static int ishex(int chr)
-{
-	if (chr >= '0' && chr <= '9') return 1;
-	if (chr >= 'A' && chr <= 'F') return 1;
-	if (chr >= 'a' && chr <= 'f') return 1;
-	return 0;
+static bool ishex(int chr){
+  if (chr >= '0' && chr <= '9') return true;
+  if (chr >= 'A' && chr <= 'F') return true;
+  if (chr >= 'a' && chr <= 'f') return true;
+  return false;
 }
+// * #fb0 (expand to #ffbb00)
+// * #ffbb00
+// * rgb(255,255,255)
+// * rgb(100%,100%,100%)
 
-void
-svg_parse_color(fz_context *ctx, svg_document *doc, const char *str, float *rgb)
-{
+void svg_parse_color(fz_context *ctx,
+                     svg_document *doc, const char *str, uint8_t *rgb){
 	int i, l, m, r, cmp;
 	size_t n;
-
-	rgb[0] = 0.0f;
-	rgb[1] = 0.0f;
-	rgb[2] = 0.0f;
-
+    bzero(rgb, sizeof(rgb[0])*3);
 	/* Crack hex-coded RGB */
 
-	if (str[0] == '#')
-	{
-		str ++;
+	if (str[0] == '#'){
+		str++;
 
 		n = strlen(str);
-		if (n == 3 || (n > 3 && !ishex(str[3])))
-		{
-			rgb[0] = (unhex(str[0]) * 16 + unhex(str[0])) / 255.0f;
-			rgb[1] = (unhex(str[1]) * 16 + unhex(str[1])) / 255.0f;
-			rgb[2] = (unhex(str[2]) * 16 + unhex(str[2])) / 255.0f;
-			return;
+		if (n == 3 || (n > 3 && !ishex(str[3]))){
+          rgb[0] = (unhex(str[0]) * 16 + unhex(str[0])) / 255;
+          rgb[1] = (unhex(str[1]) * 16 + unhex(str[1])) / 255;
+          rgb[2] = (unhex(str[2]) * 16 + unhex(str[2])) / 255;
+          return;
 		}
 
-		if (n >= 6)
-		{
-			rgb[0] = (unhex(str[0]) * 16 + unhex(str[1])) / 255.0f;
-			rgb[1] = (unhex(str[2]) * 16 + unhex(str[3])) / 255.0f;
-			rgb[2] = (unhex(str[4]) * 16 + unhex(str[5])) / 255.0f;
-			return;
+		if (n >= 6){
+          rgb[0] = (unhex(str[0]) * 16 + unhex(str[1])) / 255;
+          rgb[1] = (unhex(str[2]) * 16 + unhex(str[3])) / 255;
+          rgb[2] = (unhex(str[4]) * 16 + unhex(str[5])) / 255;
+          return;
 		}
 
 		return;
@@ -243,8 +217,7 @@ svg_parse_color(fz_context *ctx, svg_document *doc, const char *str, float *rgb)
 
 	/* rgb(X,Y,Z) -- whitespace allowed around numbers */
 
-	else if (strstr(str, "rgb("))
-	{
+	else if (strstr(str, "rgb(")){
 		int numberlen = 0;
 		char numberbuf[50];
 
@@ -265,11 +238,11 @@ svg_parse_color(fz_context *ctx, svg_document *doc, const char *str, float *rgb)
 				if (*str == '%')
 				{
 					str ++;
-					rgb[i] = fz_atof(numberbuf) / 100.0f;
+					rgb[i] = atof(numberbuf) / 100.0f;
 				}
 				else
 				{
-					rgb[i] = fz_atof(numberbuf) / 255.0f;
+					rgb[i] = atof(numberbuf) / 255.0f;
 				}
 			}
 		}

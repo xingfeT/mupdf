@@ -9,10 +9,11 @@ make examples
 
 To build from installed sources, and render the same document, run:
 gcc -I/usr/local/include -o example \
-	/usr/local/share/doc/mupdf/examples/example.c \
-	/usr/local/lib/libmupdf.a \
-	/usr/local/lib/libmupdfthird.a \
+	example.c \
+	-l mupdf \
+	-l mupdf-third \
 	-lm
+
 ./example document.pdf 1 100 0 > page1.ppm
 */
 
@@ -21,8 +22,7 @@ gcc -I/usr/local/include -o example \
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
 	char *input;
 	float zoom, rotate;
 	int page_number, page_count;
@@ -32,8 +32,7 @@ int main(int argc, char **argv)
 	fz_matrix ctm;
 	int x, y;
 
-	if (argc < 3)
-	{
+	if (argc < 3){
 		fprintf(stderr, "usage: example input-file page-number [ zoom [ rotate ] ]\n");
 		fprintf(stderr, "\tinput-file: path of PDF, XPS, CBZ or EPUB document to open\n");
 		fprintf(stderr, "\tPage numbering starts from one.\n");
@@ -56,38 +55,21 @@ int main(int argc, char **argv)
 	}
 
 	/* Register the default file types to handle. */
-	fz_try(ctx)
-		fz_register_document_handlers(ctx);
-	fz_catch(ctx)
-	{
-		fprintf(stderr, "cannot register document handlers: %s\n", fz_caught_message(ctx));
+	fz_try(ctx){
+      fz_register_document_handlers(ctx);
+      doc = fz_open_document(ctx, input);
+      page_count = fz_count_pages(ctx, doc);
+    }fz_catch(ctx)	{
+		fprintf(stderr, "cannot document handlers: %s\n", fz_caught_message(ctx));
 		fz_drop_context(ctx);
 		return EXIT_FAILURE;
 	}
 
 	/* Open the document. */
-	fz_try(ctx)
-		doc = fz_open_document(ctx, input);
-	fz_catch(ctx)
-	{
-		fprintf(stderr, "cannot open document: %s\n", fz_caught_message(ctx));
-		fz_drop_context(ctx);
-		return EXIT_FAILURE;
-	}
 
 	/* Count the number of pages. */
-	fz_try(ctx)
-		page_count = fz_count_pages(ctx, doc);
-	fz_catch(ctx)
-	{
-		fprintf(stderr, "cannot count number of pages: %s\n", fz_caught_message(ctx));
-		fz_drop_document(ctx, doc);
-		fz_drop_context(ctx);
-		return EXIT_FAILURE;
-	}
 
-	if (page_number < 0 || page_number >= page_count)
-	{
+	if (page_number < 0 || page_number >= page_count){
 		fprintf(stderr, "page number out of range: %d (page count %d)\n", page_number + 1, page_count);
 		fz_drop_document(ctx, doc);
 		fz_drop_context(ctx);

@@ -313,62 +313,62 @@ xps_parse_abbreviated_geometry(fz_context *ctx, xps_document *doc, char *geom, i
 
 			case 'M':
 				if (i + 1 >= n) break;
-				fz_moveto(ctx, path, fz_atof(args[i]), fz_atof(args[i+1]));
+				fz_moveto(ctx, path, atof(args[i]), atof(args[i+1]));
 				i += 2;
 				break;
 			case 'm':
 				if (i + 1 >= n) break;
 				pt = fz_currentpoint(ctx, path);
-				fz_moveto(ctx, path, pt.x + fz_atof(args[i]), pt.y + fz_atof(args[i+1]));
+				fz_moveto(ctx, path, pt.x + atof(args[i]), pt.y + atof(args[i+1]));
 				i += 2;
 				break;
 
 			case 'L':
 				if (i + 1 >= n) break;
-				fz_lineto(ctx, path, fz_atof(args[i]), fz_atof(args[i+1]));
+				fz_lineto(ctx, path, atof(args[i]), atof(args[i+1]));
 				i += 2;
 				break;
 			case 'l':
 				if (i + 1 >= n) break;
 				pt = fz_currentpoint(ctx, path);
-				fz_lineto(ctx, path, pt.x + fz_atof(args[i]), pt.y + fz_atof(args[i+1]));
+				fz_lineto(ctx, path, pt.x + atof(args[i]), pt.y + atof(args[i+1]));
 				i += 2;
 				break;
 
 			case 'H':
 				if (i >= n) break;
 				pt = fz_currentpoint(ctx, path);
-				fz_lineto(ctx, path, fz_atof(args[i]), pt.y);
+				fz_lineto(ctx, path, atof(args[i]), pt.y);
 				i += 1;
 				break;
 			case 'h':
 				if (i >= n) break;
 				pt = fz_currentpoint(ctx, path);
-				fz_lineto(ctx, path, pt.x + fz_atof(args[i]), pt.y);
+				fz_lineto(ctx, path, pt.x + atof(args[i]), pt.y);
 				i += 1;
 				break;
 
 			case 'V':
 				if (i >= n) break;
 				pt = fz_currentpoint(ctx, path);
-				fz_lineto(ctx, path, pt.x, fz_atof(args[i]));
+				fz_lineto(ctx, path, pt.x, atof(args[i]));
 				i += 1;
 				break;
 			case 'v':
 				if (i >= n) break;
 				pt = fz_currentpoint(ctx, path);
-				fz_lineto(ctx, path, pt.x, pt.y + fz_atof(args[i]));
+				fz_lineto(ctx, path, pt.x, pt.y + atof(args[i]));
 				i += 1;
 				break;
 
 			case 'C':
 				if (i + 5 >= n) break;
-				x1 = fz_atof(args[i+0]);
-				y1 = fz_atof(args[i+1]);
-				x2 = fz_atof(args[i+2]);
-				y2 = fz_atof(args[i+3]);
-				x3 = fz_atof(args[i+4]);
-				y3 = fz_atof(args[i+5]);
+				x1 = atof(args[i+0]);
+				y1 = atof(args[i+1]);
+				x2 = atof(args[i+2]);
+				y2 = atof(args[i+3]);
+				x3 = atof(args[i+4]);
+				y3 = atof(args[i+5]);
 				fz_curveto(ctx, path, x1, y1, x2, y2, x3, y3);
 				i += 6;
 				reset_smooth = 0;
@@ -379,12 +379,12 @@ xps_parse_abbreviated_geometry(fz_context *ctx, xps_document *doc, char *geom, i
 			case 'c':
 				if (i + 5 >= n) break;
 				pt = fz_currentpoint(ctx, path);
-				x1 = fz_atof(args[i+0]) + pt.x;
-				y1 = fz_atof(args[i+1]) + pt.y;
-				x2 = fz_atof(args[i+2]) + pt.x;
-				y2 = fz_atof(args[i+3]) + pt.y;
-				x3 = fz_atof(args[i+4]) + pt.x;
-				y3 = fz_atof(args[i+5]) + pt.y;
+				x1 = atof(args[i+0]) + pt.x;
+				y1 = atof(args[i+1]) + pt.y;
+				x2 = atof(args[i+2]) + pt.x;
+				y2 = atof(args[i+3]) + pt.y;
+				x3 = atof(args[i+4]) + pt.x;
+				y3 = atof(args[i+5]) + pt.y;
 				fz_curveto(ctx, path, x1, y1, x2, y2, x3, y3);
 				i += 6;
 				reset_smooth = 0;
@@ -395,10 +395,10 @@ xps_parse_abbreviated_geometry(fz_context *ctx, xps_document *doc, char *geom, i
 			case 'S':
 				if (i + 3 >= n) break;
 				pt = fz_currentpoint(ctx, path);
-				x1 = fz_atof(args[i+0]);
-				y1 = fz_atof(args[i+1]);
-				x2 = fz_atof(args[i+2]);
-				y2 = fz_atof(args[i+3]);
+				x1 = atof(args[i+0]);
+				y1 = atof(args[i+1]);
+				x2 = atof(args[i+2]);
+				y2 = atof(args[i+3]);
 				fz_curveto(ctx, path, pt.x + smooth_x, pt.y + smooth_y, x1, y1, x2, y2);
 				i += 4;
 				reset_smooth = 0;
@@ -409,10 +409,10 @@ xps_parse_abbreviated_geometry(fz_context *ctx, xps_document *doc, char *geom, i
 			case 's':
 				if (i + 3 >= n) break;
 				pt = fz_currentpoint(ctx, path);
-				x1 = fz_atof(args[i+0]) + pt.x;
-				y1 = fz_atof(args[i+1]) + pt.y;
-				x2 = fz_atof(args[i+2]) + pt.x;
-				y2 = fz_atof(args[i+3]) + pt.y;
+				x1 = atof(args[i+0]) + pt.x;
+				y1 = atof(args[i+1]) + pt.y;
+				x2 = atof(args[i+2]) + pt.x;
+				y2 = atof(args[i+3]) + pt.y;
 				fz_curveto(ctx, path, pt.x + smooth_x, pt.y + smooth_y, x1, y1, x2, y2);
 				i += 4;
 				reset_smooth = 0;
@@ -422,20 +422,20 @@ xps_parse_abbreviated_geometry(fz_context *ctx, xps_document *doc, char *geom, i
 
 			case 'Q':
 				if (i + 3 >= n) break;
-				x1 = fz_atof(args[i+0]);
-				y1 = fz_atof(args[i+1]);
-				x2 = fz_atof(args[i+2]);
-				y2 = fz_atof(args[i+3]);
+				x1 = atof(args[i+0]);
+				y1 = atof(args[i+1]);
+				x2 = atof(args[i+2]);
+				y2 = atof(args[i+3]);
 				fz_quadto(ctx, path, x1, y1, x2, y2);
 				i += 4;
 				break;
 			case 'q':
 				if (i + 3 >= n) break;
 				pt = fz_currentpoint(ctx, path);
-				x1 = fz_atof(args[i+0]) + pt.x;
-				y1 = fz_atof(args[i+1]) + pt.y;
-				x2 = fz_atof(args[i+2]) + pt.x;
-				y2 = fz_atof(args[i+3]) + pt.y;
+				x1 = atof(args[i+0]) + pt.x;
+				y1 = atof(args[i+1]) + pt.y;
+				x2 = atof(args[i+2]) + pt.x;
+				y2 = atof(args[i+3]) + pt.y;
 				fz_quadto(ctx, path, x1, y1, x2, y2);
 				i += 4;
 				break;
@@ -443,18 +443,18 @@ xps_parse_abbreviated_geometry(fz_context *ctx, xps_document *doc, char *geom, i
 			case 'A':
 				if (i + 6 >= n) break;
 				xps_draw_arc(ctx, doc, path,
-					fz_atof(args[i+0]), fz_atof(args[i+1]), fz_atof(args[i+2]),
+					atof(args[i+0]), atof(args[i+1]), atof(args[i+2]),
 					atoi(args[i+3]), atoi(args[i+4]),
-					fz_atof(args[i+5]), fz_atof(args[i+6]));
+					atof(args[i+5]), atof(args[i+6]));
 				i += 7;
 				break;
 			case 'a':
 				if (i + 6 >= n) break;
 				pt = fz_currentpoint(ctx, path);
 				xps_draw_arc(ctx, doc, path,
-					fz_atof(args[i+0]), fz_atof(args[i+1]), fz_atof(args[i+2]),
+					atof(args[i+0]), atof(args[i+1]), atof(args[i+2]),
 					atoi(args[i+3]), atoi(args[i+4]),
-					fz_atof(args[i+5]) + pt.x, fz_atof(args[i+6]) + pt.y);
+					atof(args[i+5]) + pt.x, atof(args[i+6]) + pt.y);
 				i += 7;
 				break;
 
@@ -522,7 +522,7 @@ xps_parse_arc_segment(fz_context *ctx, xps_document *doc, fz_path *path, fz_xml 
 
 	xps_parse_point(ctx, doc, point_att, &point_x, &point_y);
 	xps_parse_point(ctx, doc, size_att, &size_x, &size_y);
-	rotation_angle = fz_atof(rotation_angle_att);
+	rotation_angle = atof(rotation_angle_att);
 	is_large_arc = !strcmp(is_large_arc_att, "true");
 	is_clockwise = !strcmp(sweep_direction_att, "Clockwise");
 
@@ -954,11 +954,11 @@ xps_parse_path(fz_context *ctx, xps_document *doc, fz_matrix ctm, char *base_uri
 
 		stroke->miterlimit = 10;
 		if (stroke_miter_limit_att)
-			stroke->miterlimit = fz_atof(stroke_miter_limit_att);
+			stroke->miterlimit = atof(stroke_miter_limit_att);
 
 		stroke->linewidth = 1;
 		if (stroke_thickness_att)
-			stroke->linewidth = fz_atof(stroke_thickness_att);
+			stroke->linewidth = atof(stroke_thickness_att);
 
 		stroke->dash_phase = 0;
 		stroke->dash_len = 0;
@@ -967,14 +967,14 @@ xps_parse_path(fz_context *ctx, xps_document *doc, fz_matrix ctm, char *base_uri
 			char *s = stroke_dash_array_att;
 
 			if (stroke_dash_offset_att)
-				stroke->dash_phase = fz_atof(stroke_dash_offset_att) * stroke->linewidth;
+				stroke->dash_phase = atof(stroke_dash_offset_att) * stroke->linewidth;
 
 			while (*s)
 			{
 				while (*s == ' ')
 					s++;
 				if (*s) /* needed in case of a space before the last quote */
-					stroke->dash_list[stroke->dash_len++] = fz_atof(s) * stroke->linewidth;
+					stroke->dash_list[stroke->dash_len++] = atof(s) * stroke->linewidth;
 				while (*s && *s != ' ')
 					s++;
 			}
@@ -1029,7 +1029,7 @@ xps_parse_path(fz_context *ctx, xps_document *doc, fz_matrix ctm, char *base_uri
 		{
 			xps_parse_color(ctx, doc, base_uri, fill_att, &colorspace, samples);
 			if (fill_opacity_att)
-				samples[0] *= fz_atof(fill_opacity_att);
+				samples[0] *= atof(fill_opacity_att);
 			xps_set_color(ctx, doc, colorspace, samples);
 			fz_fill_path(ctx, dev, path, fill_rule == 0, ctm,
 				doc->colorspace, doc->color, doc->alpha, fz_default_color_params);
@@ -1046,7 +1046,7 @@ xps_parse_path(fz_context *ctx, xps_document *doc, fz_matrix ctm, char *base_uri
 		{
 			xps_parse_color(ctx, doc, base_uri, stroke_att, &colorspace, samples);
 			if (stroke_opacity_att)
-				samples[0] *= fz_atof(stroke_opacity_att);
+				samples[0] *= atof(stroke_opacity_att);
 			xps_set_color(ctx, doc, colorspace, samples);
 			fz_stroke_path(ctx, dev, stroke_path, stroke, ctm,
 				doc->colorspace, doc->color, doc->alpha, fz_default_color_params);

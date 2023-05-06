@@ -1,24 +1,4 @@
 // Copyright (C) 2004-2022 Artifex Software, Inc.
-//
-// This file is part of MuPDF.
-//
-// MuPDF is free software: you can redistribute it and/or modify it under the
-// terms of the GNU Affero General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-//
-// MuPDF is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-// FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-// details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with MuPDF. If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>
-//
-// Alternative licensing terms are available from the licensor.
-// For commercial licensing, see <https://www.artifex.com/> or contact
-// Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
-// CA 94129, USA, for further information.
 
 #include "mupdf/fitz.h"
 #include "pdf-annot-imp.h"
@@ -3207,7 +3187,7 @@ pdf_parse_write_options(fz_context *ctx, pdf_write_options *opts, const char *ar
 	if (fz_has_option(ctx, args, "user-password", &val))
 		fz_copy_option(ctx, val, opts->upwd_utf8, nelem(opts->upwd_utf8));
 	if (fz_has_option(ctx, args, "permissions", &val))
-		opts->permissions = fz_atoi(val);
+		opts->permissions = atoi(val);
 	else
 		opts->permissions = ~0;
 	if (fz_has_option(ctx, args, "garbage", &val))
@@ -3219,7 +3199,7 @@ pdf_parse_write_options(fz_context *ctx, pdf_write_options *opts, const char *ar
 		else if (fz_option_eq(val, "deduplicate"))
 			opts->do_garbage = 3;
 		else
-			opts->do_garbage = fz_atoi(val);
+			opts->do_garbage = atoi(val);
 	}
 	if (fz_has_option(ctx, args, "appearance", &val))
 	{

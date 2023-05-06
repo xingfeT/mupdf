@@ -38,29 +38,12 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
-#ifdef _MSC_VER
-struct timeval;
-struct timezone;
-int gettimeofday(struct timeval *tv, struct timezone *tz);
-#else
 #include <sys/time.h>
-#endif
-#ifdef _WIN32
-#include <windows.h>
-#include <direct.h> /* for getcwd */
-#else
 #include <sys/stat.h> /* for mkdir */
 #include <unistd.h> /* for getcwd */
-#endif
 
 #ifndef PATH_MAX
 #define PATH_MAX 4096
-#endif
-
-/* Allow for windows stdout being made binary */
-#ifdef _WIN32
-#include <io.h>
-#include <fcntl.h>
 #endif
 
 /* Enable for helpful threading debug */
@@ -1826,7 +1809,7 @@ static void apply_layer_config(fz_context *ctx, fz_document *doc, const char *lc
 		fprintf(stderr, "cannot find number expected for -y\n");
 		return;
 	}
-	config = fz_atoi(lc);
+	config = atoi(lc);
 	pdf_select_layer_config(ctx, pdoc, config);
 
 	while (*lc)
@@ -1848,7 +1831,7 @@ static void apply_layer_config(fz_context *ctx, fz_document *doc, const char *lc
 			fprintf(stderr, "Expected a number for UI item to toggle\n");
 			return;
 		}
-		item = fz_atoi(lc);
+		item = atoi(lc);
 		pdf_toggle_layer_config_ui(ctx, pdoc, item);
 	}
 
@@ -2039,27 +2022,27 @@ int mudraw_main(int argc, char **argv)
 		case 'o': output = fz_optarg; break;
 		case 'F': format = fz_optarg; break;
 
-		case 'R': rotation = fz_atof(fz_optarg); break;
-		case 'r': resolution = fz_atof(fz_optarg); res_specified = 1; break;
-		case 'w': width = fz_atof(fz_optarg); break;
-		case 'h': height = fz_atof(fz_optarg); break;
+		case 'R': rotation = atof(fz_optarg); break;
+		case 'r': resolution = atof(fz_optarg); res_specified = 1; break;
+		case 'w': width = atof(fz_optarg); break;
+		case 'h': height = atof(fz_optarg); break;
 		case 'f': fit = 1; break;
 		case 'B': band_height = atoi(fz_optarg); break;
 
 		case 'c': out_cs = parse_colorspace(fz_optarg); break;
 		case 'e': proof_filename = fz_optarg; break;
-		case 'G': gamma_value = fz_atof(fz_optarg); break;
+		case 'G': gamma_value = atof(fz_optarg); break;
 		case 'I': invert++; break;
 
-		case 'W': layout_w = fz_atof(fz_optarg); break;
-		case 'H': layout_h = fz_atof(fz_optarg); break;
-		case 'S': layout_em = fz_atof(fz_optarg); break;
+		case 'W': layout_w = atof(fz_optarg); break;
+		case 'H': layout_h = atof(fz_optarg); break;
+		case 'S': layout_em = atof(fz_optarg); break;
 		case 'U': layout_css = fz_optarg; break;
 		case 'X': layout_use_doc_css = 0; break;
 
 		case 'K': ++kill; break;
 
-		case 'O': spots = fz_atof(fz_optarg);
+		case 'O': spots = atof(fz_optarg);
 #ifndef FZ_ENABLE_SPOT_RENDERING
 			fprintf(stderr, "Spot rendering/Overprint/Overprint simulation not enabled in this build\n");
 			spots = SPOTS_NONE;
@@ -2085,7 +2068,7 @@ int mudraw_main(int argc, char **argv)
 			break;
 		}
 		case 'D': uselist = 0; break;
-		case 'l': min_line_width = fz_atof(fz_optarg); break;
+		case 'l': min_line_width = atof(fz_optarg); break;
 		case 'i': ignore_errors = 1; break;
 		case 'N': no_icc = 1; break;
 
@@ -2111,9 +2094,9 @@ int mudraw_main(int argc, char **argv)
 			break;
 #endif
 		case 'm':
-			if (fz_optarg[0] == 's') trace_info.mem_limit = fz_atoi64(&fz_optarg[1]);
-			else if (fz_optarg[0] == 'a') trace_info.alloc_limit = fz_atoi64(&fz_optarg[1]);
-			else trace_info.mem_limit = fz_atoi64(fz_optarg);
+			if (fz_optarg[0] == 's') trace_info.mem_limit = atol(&fz_optarg[1]);
+			else if (fz_optarg[0] == 'a') trace_info.alloc_limit = atol(&fz_optarg[1]);
+			else trace_info.mem_limit = atol(fz_optarg);
 			break;
 		case 'L': lowmemory = 1; break;
 		case 'P':
@@ -2125,8 +2108,8 @@ int mudraw_main(int argc, char **argv)
 #endif
 		case 'y': layer_config = fz_optarg; break;
 		case 'Y': layer_list = 1; break;
-		case 'z': layer_off[layer_off_len++] = !strcmp(fz_optarg, "all") ? -1 : fz_atoi(fz_optarg); break;
-		case 'Z': layer_on[layer_on_len++] = !strcmp(fz_optarg, "all") ? -1 : fz_atoi(fz_optarg); break;
+		case 'z': layer_off[layer_off_len++] = !strcmp(fz_optarg, "all") ? -1 : atoi(fz_optarg); break;
+		case 'Z': layer_on[layer_on_len++] = !strcmp(fz_optarg, "all") ? -1 : atoi(fz_optarg); break;
 		case 'a': useaccel = 0; break;
 
 		case 'v': fprintf(stderr, "mudraw version %s\n", FZ_VERSION); return 1;

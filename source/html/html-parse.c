@@ -1,24 +1,4 @@
 // Copyright (C) 2004-2023 Artifex Software, Inc.
-//
-// This file is part of MuPDF.
-//
-// MuPDF is free software: you can redistribute it and/or modify it under the
-// terms of the GNU Affero General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-//
-// MuPDF is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-// FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-// details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with MuPDF. If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>
-//
-// Alternative licensing terms are available from the licensor.
-// For commercial licensing, see <https://www.artifex.com/> or contact
-// Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
-// CA 94129, USA, for further information.
 
 #include "mupdf/fitz.h"
 #include "mupdf/ucdn.h"
@@ -886,12 +866,12 @@ static void gen2_image_html(fz_context *ctx, struct genstate *g, fz_html_box *ro
 		const char *w_att = fz_xml_att(node, "width");
 		const char *h_att = fz_xml_att(node, "height");
 
-		if (w_att && (w = fz_atoi(w_att)) > 0)
+		if (w_att && (w = atoi(w_att)) > 0)
 		{
 			local_style.width.value = w;
 			local_style.width.unit = strchr(w_att, '%') ? N_PERCENT : N_LENGTH;
 		}
-		if (h_att && (h = fz_atoi(h_att)) > 0)
+		if (h_att && (h = atoi(h_att)) > 0)
 		{
 			local_style.height.value = h;
 			local_style.height.unit = strchr(h_att, '%') ? N_PERCENT : N_LENGTH;
@@ -1506,7 +1486,7 @@ xml_to_boxes(fz_context *ctx, fz_html_font_set *set, fz_archive *zip, const char
 	}
 
 #ifndef NDEBUG
-	if (fz_atoi(getenv("FZ_DEBUG_XML")))
+	if (atoi(getenv("FZ_DEBUG_XML")))
 		fz_debug_xml(root, 0);
 #endif
 
@@ -1549,7 +1529,7 @@ xml_to_boxes(fz_context *ctx, fz_html_font_set *set, fz_archive *zip, const char
 	}
 
 #ifndef NDEBUG
-	if (fz_atoi(getenv("FZ_DEBUG_CSS")))
+	if (atoi(getenv("FZ_DEBUG_CSS")))
 		fz_debug_css(ctx, g.css);
 #endif
 
@@ -2300,7 +2280,7 @@ int fz_place_story(fz_context *ctx, fz_story *story, fz_rect where, fz_rect *fil
 	}
 
 #ifndef NDEBUG
-	if (fz_atoi(getenv("FZ_DEBUG_HTML")))
+	if (atoi(getenv("FZ_DEBUG_HTML")))
 		fz_debug_html(ctx, story->tree.root);
 #endif
 

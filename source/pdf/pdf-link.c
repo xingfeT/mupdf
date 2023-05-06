@@ -743,7 +743,7 @@ pdf_parse_link_uri(fz_context *ctx, const char *uri)
 
 	page_s = strstr(uri, "page=");
 	if (page_s)
-		dest.loc.page = fz_atoi(page_s+5) - 1;
+		dest.loc.page = atoi(page_s+5) - 1;
 
 	rect_s = strstr(uri, "viewrect=");
 	zoom_s = strstr(uri, "zoom=");

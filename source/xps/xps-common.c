@@ -1,24 +1,4 @@
 // Copyright (C) 2004-2021 Artifex Software, Inc.
-//
-// This file is part of MuPDF.
-//
-// MuPDF is free software: you can redistribute it and/or modify it under the
-// terms of the GNU Affero General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-//
-// MuPDF is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-// FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-// details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with MuPDF. If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>
-//
-// Alternative licensing terms are available from the licensor.
-// For commercial licensing, see <https://www.artifex.com/> or contact
-// Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
-// CA 94129, USA, for further information.
 
 #include "mupdf/fitz.h"
 #include "xps-imp.h"
@@ -27,12 +7,11 @@
 #include <stdio.h> /* for sscanf */
 #include <math.h> /* for pow */
 
-static inline int unhex(int a)
-{
-	if (a >= 'A' && a <= 'F') return a - 'A' + 0xA;
-	if (a >= 'a' && a <= 'f') return a - 'a' + 0xA;
-	if (a >= '0' && a <= '9') return a - '0';
-	return 0;
+static inline int unhex(int a){
+  if (a >= 'A' && a <= 'F') return a - 'A' + 0xA;
+  if (a >= 'a' && a <= 'f') return a - 'a' + 0xA;
+  if (a >= '0' && a <= '9') return a - '0';
+  return 0;
 }
 
 fz_xml *
@@ -106,14 +85,14 @@ xps_begin_opacity(fz_context *ctx, xps_document *doc, fz_matrix ctm, fz_rect are
 
 	opacity = 1;
 	if (opacity_att)
-		opacity = fz_atof(opacity_att);
+		opacity = atof(opacity_att);
 
 	if (fz_xml_is_tag(opacity_mask_tag, "SolidColorBrush"))
 	{
 		char *scb_opacity_att = fz_xml_att(opacity_mask_tag, "Opacity");
 		char *scb_color_att = fz_xml_att(opacity_mask_tag, "Color");
 		if (scb_opacity_att)
-			opacity = opacity * fz_atof(scb_opacity_att);
+			opacity = opacity * atof(scb_opacity_att);
 		if (scb_color_att)
 		{
 			fz_colorspace *colorspace;
@@ -171,7 +150,7 @@ xps_parse_render_transform(fz_context *ctx, xps_document *doc, char *transform)
 
 	for (i = 0; i < 6 && *s; i++)
 	{
-		args[i] = fz_atof(s);
+		args[i] = atof(s);
 		while (*s && *s != ',')
 			s++;
 		if (*s == ',')
@@ -219,7 +198,7 @@ xps_parse_rectangle(fz_context *ctx, xps_document *doc, char *text)
 
 	for (i = 0; i < 4 && *s; i++)
 	{
-		args[i] = fz_atof(s);
+		args[i] = atof(s);
 		while (*s && *s != ',')
 			s++;
 		if (*s == ',')
@@ -338,7 +317,7 @@ xps_parse_color(fz_context *ctx, xps_document *doc, char *base_uri, char *string
 		i = 0;
 		while (i < n)
 		{
-			samples[i++] = fz_atof(p);
+			samples[i++] = atof(p);
 			p = strchr(p, ',');
 			if (!p)
 				break;

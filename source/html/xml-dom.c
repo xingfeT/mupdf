@@ -24,20 +24,18 @@
 
 #include "string.h"
 
-fz_xml *fz_story_document(fz_context *ctx, fz_story *story)
-{
-	if (story == NULL || story->dom == NULL)
-		return NULL;
+fz_xml *fz_story_document(fz_context *ctx, fz_story *story){
+  if (story == NULL || story->dom == NULL)
+    return NULL;
 
-	return story->dom;
+  return story->dom;
 }
 
-fz_xml *fz_dom_body(fz_context *ctx, fz_xml *dom)
-{
-	if (dom == NULL)
-		return NULL;
+fz_xml *fz_dom_body(fz_context *ctx, fz_xml *dom){
+  if (dom == NULL)
+    return NULL;
 
-	return fz_xml_find_dfs(dom, "body", NULL, NULL);
+  return fz_xml_find_dfs(dom, "body", NULL, NULL);
 }
 
 fz_xml *fz_dom_document_element(fz_context *ctx, fz_xml *dom)

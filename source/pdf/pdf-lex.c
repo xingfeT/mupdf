@@ -254,7 +254,7 @@ end:
 		if (neg > 1 || isreal - buf->scratch >= 10)
 			buf->f = acrobat_compatible_atof(buf->scratch);
 		else
-			buf->f = fz_atof(buf->scratch);
+			buf->f = atof(buf->scratch);
 		return PDF_TOK_REAL;
 	}
 	else

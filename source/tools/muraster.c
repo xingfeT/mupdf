@@ -1,24 +1,4 @@
 // Copyright (C) 2004-2023 Artifex Software, Inc.
-//
-// This file is part of MuPDF.
-//
-// MuPDF is free software: you can redistribute it and/or modify it under the
-// terms of the GNU Affero General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-//
-// MuPDF is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-// FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-// details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with MuPDF. If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>
-//
-// Alternative licensing terms are available from the licensor.
-// For commercial licensing, see <https://www.artifex.com/> or contact
-// Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
-// CA 94129, USA, for further information.
 
 /*
  * muraster -- Convert a document to a raster file.
@@ -1407,9 +1387,7 @@ static void bgprint_worker(void *arg)
 }
 #endif
 
-static void
-read_resolution(const char *arg)
-{
+static void read_resolution(const char *arg){
 	char *sep = strchr(arg, ',');
 
 	if (sep == NULL)
@@ -1419,9 +1397,9 @@ read_resolution(const char *arg)
 	if (sep == NULL)
 		sep = strchr(arg, ';');
 
-	x_resolution = fz_atoi(arg);
+	x_resolution = atoi(arg);
 	if (sep && sep[1])
-		y_resolution = fz_atoi(arg);
+		y_resolution = atoi(arg);
 	else
 		y_resolution = x_resolution;
 
@@ -1443,7 +1421,7 @@ read_rotation(const char *arg)
 		return -1;
 	}
 
-	i = fz_atoi(arg);
+	i = atoi(arg);
 
 	i = i % 360;
 	if (i % 90 != 0)
@@ -1489,15 +1467,15 @@ int main(int argc, char **argv)
 
 		case 'R': rotation = read_rotation(fz_optarg); break;
 		case 'r': read_resolution(fz_optarg); break;
-		case 'w': width = fz_atof(fz_optarg); break;
-		case 'h': height = fz_atof(fz_optarg); break;
+		case 'w': width = atof(fz_optarg); break;
+		case 'h': height = atof(fz_optarg); break;
 		case 'f': fit = 1; break;
 		case 'B': min_band_height = atoi(fz_optarg); break;
 		case 'M': max_band_memory = atoi(fz_optarg); break;
 
-		case 'W': layout_w = fz_atof(fz_optarg); break;
-		case 'H': layout_h = fz_atof(fz_optarg); break;
-		case 'S': layout_em = fz_atof(fz_optarg); break;
+		case 'W': layout_w = atof(fz_optarg); break;
+		case 'H': layout_h = atof(fz_optarg); break;
+		case 'S': layout_em = atof(fz_optarg); break;
 		case 'U': layout_css = fz_optarg; break;
 		case 'X': layout_use_doc_css = 0; break;
 

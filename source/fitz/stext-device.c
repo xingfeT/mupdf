@@ -921,7 +921,7 @@ fz_parse_stext_options(fz_context *ctx, fz_stext_options *opts, const char *stri
 
 	opts->scale = 1;
 	if (fz_has_option(ctx, string, "resolution", &val))
-		opts->scale = fz_atof(val) / 96.0f; /* HTML base resolution is 96ppi */
+		opts->scale = atof(val) / 96.0f; /* HTML base resolution is 96ppi */
 
 	return opts;
 }

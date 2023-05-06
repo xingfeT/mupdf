@@ -1,24 +1,4 @@
 // Copyright (C) 2004-2023 Artifex Software, Inc.
-//
-// This file is part of MuPDF.
-//
-// MuPDF is free software: you can redistribute it and/or modify it under the
-// terms of the GNU Affero General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-//
-// MuPDF is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-// FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-// details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with MuPDF. If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>
-//
-// Alternative licensing terms are available from the licensor.
-// For commercial licensing, see <https://www.artifex.com/> or contact
-// Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
-// CA 94129, USA, for further information.
 
 #include "mupdf/fitz.h"
 #include "pdf-annot-imp.h"
@@ -866,16 +846,14 @@ void pdf_forget_xref(fz_context *ctx, pdf_document *doc)
  * magic version tag and startxref
  */
 
-int
-pdf_version(fz_context *ctx, pdf_document *doc)
-{
+int pdf_version(fz_context *ctx, pdf_document *doc){
 	int version = doc->version;
 	fz_try(ctx)
 	{
 		pdf_obj *obj = pdf_dict_getl(ctx, pdf_trailer(ctx, doc), PDF_NAME(Root), PDF_NAME(Version), NULL);
 		const char *str = pdf_to_name(ctx, obj);
 		if (*str)
-			version = 10 * (fz_atof(str) + 0.05f);
+			version = 10 * (atof(str) + 0.05f);
 	}
 	fz_catch(ctx)
 	{
@@ -895,7 +873,7 @@ pdf_load_version(fz_context *ctx, pdf_document *doc)
 	if (strlen(buf) < 5 || memcmp(buf, "%PDF-", 5) != 0)
 		fz_throw(ctx, FZ_ERROR_GENERIC, "cannot recognize version marker");
 
-	doc->version = 10 * (fz_atof(buf+5) + 0.05f);
+	doc->version = 10 * (atof(buf+5) + 0.05f);
 	if (doc->version < 10 || doc->version > 17)
 		if (doc->version != 20)
 			fz_warn(ctx, "unknown PDF version: %d.%d", doc->version / 10, doc->version % 10);
@@ -1007,7 +985,7 @@ pdf_xref_size_from_old_trailer(fz_context *ctx, pdf_document *doc)
 		fz_strsep(&s, " "); /* ignore start */
 		if (!s)
 			fz_throw(ctx, FZ_ERROR_GENERIC, "xref subsection length missing");
-		len = fz_atoi(fz_strsep(&s, " "));
+		len = atoi(fz_strsep(&s, " "));
 		if (len < 0)
 			fz_throw(ctx, FZ_ERROR_GENERIC, "xref subsection length must be positive");
 
@@ -1214,8 +1192,8 @@ pdf_read_old_xref(fz_context *ctx, pdf_document *doc)
 
 		fz_read_line(ctx, file, buf->scratch, buf->size);
 		s = buf->scratch;
-		start = fz_atoi(fz_strsep(&s, " "));
-		len = fz_atoi(fz_strsep(&s, " "));
+		start = atoi(fz_strsep(&s, " "));
+		len = atoi(fz_strsep(&s, " "));
 
 		/* broken pdfs where the section is not on a separate line */
 		if (s && *s != '\0')

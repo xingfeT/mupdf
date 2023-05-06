@@ -1,24 +1,5 @@
 // Copyright (C) 2004-2021 Artifex Software, Inc.
 //
-// This file is part of MuPDF.
-//
-// MuPDF is free software: you can redistribute it and/or modify it under the
-// terms of the GNU Affero General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-//
-// MuPDF is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-// FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-// details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with MuPDF. If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>
-//
-// Alternative licensing terms are available from the licensor.
-// For commercial licensing, see <https://www.artifex.com/> or contact
-// Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
-// CA 94129, USA, for further information.
 
 /*
  * PDF cleaning tool: general purpose pdf syntax washer.
@@ -38,8 +19,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static int usage(void)
-{
+static int usage(void){
 	fprintf(stderr,
 		"usage: mutool clean [options] input.pdf [output.pdf] [pages]\n"
 		"\t-p -\tpassword\n"
@@ -68,8 +48,7 @@ static int usage(void)
 	return 1;
 }
 
-static int encrypt_method_from_string(const char *name)
-{
+static int encrypt_method_from_string(const char *name){
 	if (!strcmp(name, "rc4-40")) return PDF_ENCRYPT_RC4_40;
 	if (!strcmp(name, "rc4-128")) return PDF_ENCRYPT_RC4_128;
 	if (!strcmp(name, "aes-128")) return PDF_ENCRYPT_AES_128;
@@ -77,8 +56,7 @@ static int encrypt_method_from_string(const char *name)
 	return PDF_ENCRYPT_UNKNOWN;
 }
 
-int pdfclean_main(int argc, char **argv)
-{
+int pdfclean_main(int argc, char **argv){
 	char *infile;
 	char *outfile = "out.pdf";
 	char *password = "";
@@ -108,7 +86,7 @@ int pdfclean_main(int argc, char **argv)
 
 		case 'D': opts.do_encrypt = PDF_ENCRYPT_NONE; break;
 		case 'E': opts.do_encrypt = encrypt_method_from_string(fz_optarg); break;
-		case 'P': opts.permissions = fz_atoi(fz_optarg); break;
+		case 'P': opts.permissions = atoi(fz_optarg); break;
 		case 'O': fz_strlcpy(opts.opwd_utf8, fz_optarg, sizeof opts.opwd_utf8); break;
 		case 'U': fz_strlcpy(opts.upwd_utf8, fz_optarg, sizeof opts.upwd_utf8); break;
 		case 'm': opts.do_preserve_metadata = 1; break;

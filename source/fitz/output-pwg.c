@@ -1,24 +1,4 @@
 // Copyright (C) 2004-2021 Artifex Software, Inc.
-//
-// This file is part of MuPDF.
-//
-// MuPDF is free software: you can redistribute it and/or modify it under the
-// terms of the GNU Affero General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-//
-// MuPDF is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-// FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-// details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with MuPDF. If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>
-//
-// Alternative licensing terms are available from the licensor.
-// For commercial licensing, see <https://www.artifex.com/> or contact
-// Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
-// CA 94129, USA, for further information.
 
 #include "mupdf/fitz.h"
 
@@ -505,57 +485,57 @@ fz_parse_pwg_options(fz_context *ctx, fz_pwg_options *opts, const char *args)
 	if (fz_has_option(ctx, args, "page_size_name", &val))
 		warn_if_long(ctx, "page_size_name", fz_copy_option(ctx, val, opts->page_size_name, 64));
 	if (fz_has_option(ctx, args, "advance_distance", &val))
-		opts->advance_distance = fz_atoi(val);
+		opts->advance_distance = atoi(val);
 	if (fz_has_option(ctx, args, "advance_media", &val))
-		opts->advance_media = fz_atoi(val);
+		opts->advance_media = atoi(val);
 	if (fz_has_option(ctx, args, "collate", &val))
-		opts->collate = fz_atoi(val);
+		opts->collate = atoi(val);
 	if (fz_has_option(ctx, args, "cut_media", &val))
-		opts->cut_media = fz_atoi(val);
+		opts->cut_media = atoi(val);
 	if (fz_has_option(ctx, args, "duplex", &val))
-		opts->duplex = fz_atoi(val);
+		opts->duplex = atoi(val);
 	if (fz_has_option(ctx, args, "insert_sheet", &val))
-		opts->insert_sheet = fz_atoi(val);
+		opts->insert_sheet = atoi(val);
 	if (fz_has_option(ctx, args, "jog", &val))
-		opts->jog = fz_atoi(val);
+		opts->jog = atoi(val);
 	if (fz_has_option(ctx, args, "leading_edge", &val))
-		opts->leading_edge = fz_atoi(val);
+		opts->leading_edge = atoi(val);
 	if (fz_has_option(ctx, args, "manual_feed", &val))
-		opts->manual_feed = fz_atoi(val);
+		opts->manual_feed = atoi(val);
 	if (fz_has_option(ctx, args, "media_position", &val))
-		opts->media_position = fz_atoi(val);
+		opts->media_position = atoi(val);
 	if (fz_has_option(ctx, args, "media_weight", &val))
-		opts->media_weight = fz_atoi(val);
+		opts->media_weight = atoi(val);
 	if (fz_has_option(ctx, args, "mirror_print", &val))
-		opts->mirror_print = fz_atoi(val);
+		opts->mirror_print = atoi(val);
 	if (fz_has_option(ctx, args, "negative_print", &val))
-		opts->negative_print = fz_atoi(val);
+		opts->negative_print = atoi(val);
 	if (fz_has_option(ctx, args, "num_copies", &val))
-		opts->num_copies = fz_atoi(val);
+		opts->num_copies = atoi(val);
 	if (fz_has_option(ctx, args, "orientation", &val))
-		opts->orientation = fz_atoi(val);
+		opts->orientation = atoi(val);
 	if (fz_has_option(ctx, args, "output_face_up", &val))
-		opts->output_face_up = fz_atoi(val);
+		opts->output_face_up = atoi(val);
 	if (fz_has_option(ctx, args, "page_size_x", &val))
-		opts->PageSize[0] = fz_atoi(val);
+		opts->PageSize[0] = atoi(val);
 	if (fz_has_option(ctx, args, "page_size_y", &val))
-		opts->PageSize[1] = fz_atoi(val);
+		opts->PageSize[1] = atoi(val);
 	if (fz_has_option(ctx, args, "separations", &val))
-		opts->separations = fz_atoi(val);
+		opts->separations = atoi(val);
 	if (fz_has_option(ctx, args, "tray_switch", &val))
-		opts->tray_switch = fz_atoi(val);
+		opts->tray_switch = atoi(val);
 	if (fz_has_option(ctx, args, "tumble", &val))
-		opts->tumble = fz_atoi(val);
+		opts->tumble = atoi(val);
 	if (fz_has_option(ctx, args, "media_type_num", &val))
-		opts->media_type_num = fz_atoi(val);
+		opts->media_type_num = atoi(val);
 	if (fz_has_option(ctx, args, "compression", &val))
-		opts->compression = fz_atoi(val);
+		opts->compression = atoi(val);
 	if (fz_has_option(ctx, args, "row_count", &val))
-		opts->row_count = fz_atoi(val);
+		opts->row_count = atoi(val);
 	if (fz_has_option(ctx, args, "row_feed", &val))
-		opts->row_feed = fz_atoi(val);
+		opts->row_feed = atoi(val);
 	if (fz_has_option(ctx, args, "row_step", &val))
-		opts->row_step = fz_atoi(val);
+		opts->row_step = atoi(val);
 
 	return opts;
 }

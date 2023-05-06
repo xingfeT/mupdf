@@ -627,10 +627,10 @@ xps_parse_glyphs(fz_context *ctx, xps_document *doc, fz_matrix ctm,
 		if (clip_att || clip_tag)
 			xps_clip(ctx, doc, ctm, dict, clip_att, clip_tag);
 
-		font_size = fz_atof(font_size_att);
+		font_size = atof(font_size_att);
 
 		text = xps_parse_glyphs_imp(ctx, doc, ctm, font, font_size,
-				fz_atof(origin_x_att), fz_atof(origin_y_att),
+				atof(origin_x_att), atof(origin_y_att),
 				is_sideways, bidi_level, indices_att, unicode_att);
 
 		area = fz_bound_text(ctx, text, NULL, ctm);
@@ -653,7 +653,7 @@ xps_parse_glyphs(fz_context *ctx, xps_document *doc, fz_matrix ctm,
 
 			xps_parse_color(ctx, doc, base_uri, fill_att, &colorspace, samples);
 			if (fill_opacity_att)
-				samples[0] *= fz_atof(fill_opacity_att);
+				samples[0] *= atof(fill_opacity_att);
 			xps_set_color(ctx, doc, colorspace, samples);
 
 			fz_fill_text(ctx, dev, text, ctm, doc->colorspace, doc->color, doc->alpha, fz_default_color_params);

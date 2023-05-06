@@ -25,8 +25,7 @@
 
 typedef struct svg_document_s svg_document;
 
-struct svg_document_s
-{
+struct svg_document_s{
 	fz_document super;
 	fz_xml_doc *xml;
 	fz_xml *root;
@@ -53,7 +52,8 @@ float svg_parse_angle(const char *str);
 
 void svg_parse_color_from_style(fz_context *ctx, svg_document *doc, const char *str,
 	int *fill_is_set, float fill[3], int *stroke_is_set, float stroke[3]);
-void svg_parse_color(fz_context *ctx, svg_document *doc, const char *str, float *rgb);
+
+void svg_parse_color(fz_context *ctx, svg_document *doc, const char *str, uint8_t *rgb);
 fz_matrix svg_parse_transform(fz_context *ctx, svg_document *doc, const char *str, fz_matrix transform);
 
 int svg_is_whitespace_or_comma(int c);

@@ -29,9 +29,7 @@
 
 static void pdf_adjust_page_labels(fz_context *ctx, pdf_document *doc, int index, int adjust);
 
-int
-pdf_count_pages(fz_context *ctx, pdf_document *doc)
-{
+int pdf_count_pages(fz_context *ctx, pdf_document *doc){
 	/* FIXME: We should reset linear_page_count to 0 when editing starts
 	 * (or when linear loading ends) */
 	if (doc->linear_page_count != 0)
@@ -39,14 +37,12 @@ pdf_count_pages(fz_context *ctx, pdf_document *doc)
 	return pdf_to_int(ctx, pdf_dict_getp(ctx, pdf_trailer(ctx, doc), "Root/Pages/Count"));
 }
 
-int pdf_count_pages_imp(fz_context *ctx, fz_document *doc, int chapter)
-{
+int pdf_count_pages_imp(fz_context *ctx, fz_document *doc, int chapter){
 	return pdf_count_pages(ctx, (pdf_document*)doc);
 }
 
-static int
-pdf_load_page_tree_imp(fz_context *ctx, pdf_document *doc, pdf_obj *node, int idx, pdf_cycle_list *cycle_up)
-{
+static int pdf_load_page_tree_imp(fz_context *ctx,
+                                  pdf_document *doc, pdf_obj *node, int idx, pdf_cycle_list *cycle_up){
 	pdf_cycle_list cycle;
 	pdf_obj *type = pdf_dict_get(ctx, node, PDF_NAME(Type));
 	if (pdf_name_eq(ctx, type, PDF_NAME(Pages)))

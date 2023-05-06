@@ -1,5 +1,7 @@
 # GNU Makefile
 
+
+
 -include user.make
 
 ifndef build
@@ -269,6 +271,8 @@ source/html/css-properties.h: source/html/css-properties.gperf
 generate: source/html/css-properties.h
 
 # --- Library ---
+HAVE_X11=no
+HAVE_GLUT=no
 
 ifeq ($(shared),yes)
 MUPDF_LIB = $(OUT)/libmupdf.$(SO)

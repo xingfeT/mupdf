@@ -24,6 +24,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #define DPI 72.0f
 
@@ -66,38 +67,36 @@ typedef struct
 	const char **page;
 } cbz_document;
 
-static inline int cbz_isdigit(int c)
-{
-	return c >= '0' && c <= '9';
-}
+/* static inline int cbz_isdigit(int c) */
+/* { */
+/* 	return c >= '0' && c <= '9'; */
+/* } */
 
-static inline int cbz_toupper(int c)
-{
-	if (c >= 'a' && c <= 'z')
-		return c - 'a' + 'A';
-	return c;
-}
+/* static inline int cbz_toupper(int c) */
+/* { */
+/* 	if (c >= 'a' && c <= 'z') */
+/* 		return c - 'a' + 'A'; */
+/* 	return c; */
+/* } */
 
-static inline int
-cbz_strnatcmp(const char *a, const char *b)
-{
+static inline int cbz_strnatcmp(const char *a, const char *b){
 	int x, y;
 
 	while (*a || *b)
 	{
-		if (cbz_isdigit(*a) && cbz_isdigit(*b))
+		if (isdigit(*a) && isdigit(*b))
 		{
 			x = *a++ - '0';
-			while (cbz_isdigit(*a))
+			while (isdigit(*a))
 				x = x * 10 + *a++ - '0';
 			y = *b++ - '0';
-			while (cbz_isdigit(*b))
+			while (isdigit(*b))
 				y = y * 10 + *b++ - '0';
 		}
 		else
 		{
-			x = cbz_toupper(*a++);
-			y = cbz_toupper(*b++);
+			x = toupper(*a++);
+			y = toupper(*b++);
 		}
 		if (x < y)
 			return -1;
@@ -108,15 +107,11 @@ cbz_strnatcmp(const char *a, const char *b)
 	return 0;
 }
 
-static int
-cbz_compare_page_names(const void *a, const void *b)
-{
+static int cbz_compare_page_names(const void *a, const void *b){
 	return cbz_strnatcmp(*(const char **)a, *(const char **)b);
 }
 
-static void
-cbz_create_page_list(fz_context *ctx, cbz_document *doc)
-{
+static void cbz_create_page_list(fz_context *ctx, cbz_document *doc){
 	fz_archive *arch = doc->arch;
 	int i, k, count;
 
@@ -142,9 +137,7 @@ cbz_create_page_list(fz_context *ctx, cbz_document *doc)
 	qsort((char **)doc->page, doc->page_count, sizeof *doc->page, cbz_compare_page_names);
 }
 
-static void
-cbz_drop_document(fz_context *ctx, fz_document *doc_)
-{
+static void cbz_drop_document(fz_context *ctx, fz_document *doc_){
 	cbz_document *doc = (cbz_document*)doc_;
 	fz_drop_archive(ctx, doc->arch);
 	fz_free(ctx, (char **)doc->page);

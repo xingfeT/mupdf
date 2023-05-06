@@ -600,35 +600,34 @@ fz_utflen(const char *s)
 	return 0;
 }
 
-float fz_atof(const char *s)
-{
-	float result;
+/* float fz_atof(const char *s){ */
+/* 	float result; */
 
-	if (s == NULL)
-		return 0;
+/* 	if (s == NULL) */
+/* 		return 0; */
 
-	errno = 0;
-	result = fz_strtof(s, NULL);
-	if ((errno == ERANGE && result == 0) || isnan(result))
-		/* Return 1.0 on  underflow, as it's a small known value that won't cause a divide by 0.  */
-		return 1;
-	result = fz_clamp(result, -FLT_MAX, FLT_MAX);
-	return result;
-}
+/* 	errno = 0; */
+/* 	result = fz_strtof(s, NULL); */
+/* 	if ((errno == ERANGE && result == 0) || isnan(result)) */
+/* 		/\* Return 1.0 on  underflow, as it's a small known value that won't cause a divide by 0.  *\/ */
+/* 		return 1; */
+/* 	result = fz_clamp(result, -FLT_MAX, FLT_MAX); */
+/* 	return result; */
+/* } */
 
-int fz_atoi(const char *s)
-{
-	if (s == NULL)
-		return 0;
-	return atoi(s);
-}
+/* int fz_atoi(const char *s) */
+/* { */
+/* 	if (s == NULL) */
+/* 		return 0; */
+/* 	return atoi(s); */
+/* } */
 
-int64_t fz_atoi64(const char *s)
-{
-	if (s == NULL)
-		return 0;
-	return atoll(s);
-}
+/* int64_t fz_atoi64(const char *s) */
+/* { */
+/* 	if (s == NULL) */
+/* 		return 0; */
+/* 	return atoll(s); */
+/* } */
 
 int fz_is_page_range(fz_context *ctx, const char *s)
 {

@@ -1,24 +1,4 @@
 // Copyright (C) 2004-2021 Artifex Software, Inc.
-//
-// This file is part of MuPDF.
-//
-// MuPDF is free software: you can redistribute it and/or modify it under the
-// terms of the GNU Affero General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-//
-// MuPDF is distributed in the hope that it will be useful, but WITHOUT ANY
-// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-// FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-// details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with MuPDF. If not, see <https://www.gnu.org/licenses/agpl-3.0.en.html>
-//
-// Alternative licensing terms are available from the licensor.
-// For commercial licensing, see <https://www.artifex.com/> or contact
-// Artifex Software, Inc., 39 Mesa Street, Suite 108A, San Francisco,
-// CA 94129, USA, for further information.
 
 #include "mupdf/fitz.h"
 #include "xps-imp.h"
@@ -57,8 +37,7 @@ static int cmp_stop(const void *a, const void *b)
 	return astop->index - bstop->index;
 }
 
-static inline float lerp(float a, float b, float x)
-{
+static inline float lerp(float a, float b, float x){
 	return a + (b - a) * x;
 }
 
@@ -85,7 +64,7 @@ xps_parse_gradient_stops(fz_context *ctx, xps_document *doc, char *base_uri, fz_
 			char *color = fz_xml_att(node, "Color");
 			if (offset && color)
 			{
-				stops[count].offset = fz_atof(offset);
+				stops[count].offset = atof(offset);
 				stops[count].index = count;
 
 				xps_parse_color(ctx, doc, base_uri, color, &colorspace, sample);
@@ -348,9 +327,9 @@ xps_draw_radial_gradient(fz_context *ctx, xps_document *doc, fz_matrix ctm, fz_r
 	if (center_att)
 		xps_parse_point(ctx, doc, center_att, &x1, &y1);
 	if (radius_x_att)
-		xrad = fz_atof(radius_x_att);
+		xrad = atof(radius_x_att);
 	if (radius_y_att)
-		yrad = fz_atof(radius_y_att);
+		yrad = atof(radius_y_att);
 
 	xrad = fz_max(0.01f, xrad);
 	yrad = fz_max(0.01f, yrad);
