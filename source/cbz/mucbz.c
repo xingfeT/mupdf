@@ -143,16 +143,13 @@ static void cbz_drop_document(fz_context *ctx, fz_document *doc_){
 	fz_free(ctx, (char **)doc->page);
 }
 
-static int
-cbz_count_pages(fz_context *ctx, fz_document *doc_, int chapter)
-{
+static int cbz_count_pages(fz_context *ctx, fz_document *doc_,
+                           int chapter){
 	cbz_document *doc = (cbz_document*)doc_;
 	return doc->page_count;
 }
 
-static fz_rect
-cbz_bound_page(fz_context *ctx, fz_page *page_)
-{
+static fz_rect cbz_bound_page(fz_context *ctx, fz_page *page_){
 	cbz_page *page = (cbz_page*)page_;
 	fz_image *image = page->image;
 	int xres, yres;
@@ -174,9 +171,8 @@ cbz_bound_page(fz_context *ctx, fz_page *page_)
 	return bbox;
 }
 
-static void
-cbz_run_page(fz_context *ctx, fz_page *page_, fz_device *dev, fz_matrix ctm, fz_cookie *cookie)
-{
+static void cbz_run_page(fz_context *ctx, fz_page *page_, fz_device *dev, fz_matrix ctm,
+                         fz_cookie *cookie){
 	cbz_page *page = (cbz_page*)page_;
 	fz_image *image = page->image;
 	int xres, yres;
